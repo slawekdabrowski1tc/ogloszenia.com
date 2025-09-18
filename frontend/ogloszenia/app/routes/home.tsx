@@ -1,6 +1,8 @@
 import { Button } from "~/components/button";
 import type { Route } from "./+types/home";
 import { Input } from "~/components/input";
+import {categories, testimonials} from "./../../lib/defaultValues"
+import { TestimonialCard } from "~/components/home/testimonialCard";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -8,19 +10,6 @@ export function meta({ }: Route.MetaArgs) {
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
-const categories = [
-  "Motoryzacja",
-  "Nieruchomości",
-  "Praca",
-  "Elektronika",
-  "Moda",
-  "Dom i ogród",
-  "Sport",
-  "Muzyka",
-  "Usługi",
-  "Zwierzęta",
-  "Dla dzieci",
-  "Inne"]
 
 export default function Home() {
 
@@ -41,7 +30,7 @@ export default function Home() {
       </p>
 
 
-      <div className="mb-10 w-full max-w-lg flex flex-col space-y-2">
+      <div className="mb-10 w-full max-w-lg flex flex-col space-y-3">
         <Button className="flex-1">Dodaj ogłoszenie</Button>
         <Input placeholder="Wyszukaj kategorię" className="flex 1 text-center" />
       </div>
@@ -60,6 +49,15 @@ export default function Home() {
         </div>
       </div>
     </main>
+
+    <section className="py-16 bg-gray-50">
+      <h3 className="text-2xl font-bold text-center mb-10">Opinie użytkowników</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+        {testimonials.map((testimonial, i) => (
+          <TestimonialCard key={i} {...testimonial} />
+        ))}
+      </div>
+    </section>
   </div>
   )
 }
