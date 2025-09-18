@@ -45,7 +45,21 @@ export default function Home() {
         <Button className="flex-1">Dodaj ogłoszenie</Button>
         <Input placeholder="Wyszukaj kategorię" className="flex 1 text-center" />
       </div>
-      </main>
+
+      <div className="w-full max-w-5xl">
+        <h3 className="text-lg font-semibold mb-6">Kategorie:</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          {categories.map((cat, i) => (
+            <div
+              key={i}
+              className="border rounded-lg p-4 text-center hover:shadow-md cursor-pointer transition"
+            >
+              {cat}
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
   </div>
   )
 }
