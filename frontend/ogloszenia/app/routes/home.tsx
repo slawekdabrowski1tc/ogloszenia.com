@@ -3,6 +3,7 @@ import type { Route } from "./+types/home";
 import { Input } from "~/components/input";
 import {categories, testimonials} from "./../../lib/defaultValues"
 import { TestimonialCard } from "~/components/home/testimonialCard";
+import Footer from "~/components/footer";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -32,7 +33,7 @@ export default function Home() {
 
       <div className="mb-10 w-full max-w-lg flex flex-col space-y-3">
         <Button className="flex-1">Dodaj ogłoszenie</Button>
-        <Input placeholder="Wyszukaj kategorię" className="flex 1 text-center" />
+        <Input placeholder="Wyszukaj ogloszenie" className="flex 1 text-center" />
       </div>
 
       <div className="w-full max-w-5xl">
@@ -58,6 +59,9 @@ export default function Home() {
         ))}
       </div>
     </section>
+
+    <Footer />
   </div>
   )
 }
+
