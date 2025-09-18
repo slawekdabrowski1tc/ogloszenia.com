@@ -30,6 +30,22 @@ export default function Home() {
       <h1 className="text-2xl font-bold text-blue-600">ogloszenia.com</h1>
       <Button variant="outline">Logowanie</Button>
     </header>
+
+    <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-12">
+      <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
+        Dodawaj ogłoszenia jak mistrz
+      </h2>
+      <p className="text-gray-600 max-w-2xl mb-8">
+        Twórz i publikuj swoje ogłoszenia w prosty sposób. Skontaktuj się z innymi
+        użytkownikami i znajdź dokładnie to, czego potrzebujesz.
+      </p>
+
+
+      <div className="mb-10 w-full max-w-lg flex flex-col space-y-2">
+        <Button className="flex-1">Dodaj ogłoszenie</Button>
+        <Input placeholder="Wyszukaj kategorię" className="flex 1 text-center" />
+      </div>
+      </main>
   </div>
   )
 }
