@@ -10,8 +10,6 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    let navigate = useNavigate();
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Login data:", { email, password });
