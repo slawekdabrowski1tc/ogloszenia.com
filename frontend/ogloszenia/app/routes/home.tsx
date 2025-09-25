@@ -4,6 +4,7 @@ import { Input } from "~/components/input";
 import {categories, testimonials} from "./../../lib/defaultValues"
 import { TestimonialCard } from "~/components/home/testimonialCard";
 import Footer from "~/components/footer";
+import Header from "~/components/header";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -13,13 +14,8 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
-
-
   return (<div className="min-h-screen flex flex-col">
-    <header className="flex justify-between items-center p-6 shadow-md bg-white">
-      <h1 className="text-2xl font-bold text-blue-600">ogloszenia.com</h1>
-      <Button variant="outline">Logowanie</Button>
-    </header>
+    <Header link="/login" buttonText="Zaloguj się" />
 
     <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-12">
       <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
