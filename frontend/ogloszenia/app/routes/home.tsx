@@ -5,6 +5,7 @@ import {categories, testimonials} from "./../../lib/defaultValues"
 import { TestimonialCard } from "~/components/home/testimonialCard";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
+import { useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -14,6 +15,8 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const naviate = useNavigate();
+
   return (<div className="min-h-screen flex flex-col">
     <Header link="/login" buttonText="Zaloguj się" />
 
@@ -28,7 +31,7 @@ export default function Home() {
 
 
       <div className="mb-10 w-full max-w-lg flex flex-col space-y-3">
-        <Button className="flex-1">Dodaj ogłoszenie</Button>
+        <Button className="flex-1" onClick={() => naviate("/add")}>Dodaj ogłoszenie</Button>
         <Input placeholder="Wyszukaj ogloszenie" className="flex 1 text-center" />
       </div>
 
