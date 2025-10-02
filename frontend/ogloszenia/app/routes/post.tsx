@@ -1,7 +1,7 @@
 import Header from "~/components/header";
-import type { Route } from "./+types/createPost";
 import { Button } from "~/components/button";
 import { useState } from "react";
+import type { LoaderFunctionArgs } from "react-router";
 
 const mockAd = {
     title: "Sprzedam rower górski",
@@ -18,7 +18,7 @@ const mockAd = {
     location: "Warszawa",
   };
 
-export default function post({params}:Route.LoaderArgs) {
+export default function post({params}: LoaderFunctionArgs) {
     if (!params.id) return;
     const id = params.id;
 
