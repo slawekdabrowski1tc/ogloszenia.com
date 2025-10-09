@@ -42,6 +42,7 @@ export default function Home() {
             <div
               key={i}
               className="border rounded-lg p-4 text-center hover:shadow-md cursor-pointer transition"
+              onClick={() => naviate(`/browse?cat=${cat}`)}
             >
               {cat}
             </div>
