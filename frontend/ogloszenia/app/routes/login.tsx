@@ -4,16 +4,28 @@ import { Input } from "~/components/input";
 import { Button } from "~/components/button";
 import { useNavigate } from "react-router";
 import Header from "~/components/header";
+import { supabase } from "lib/supabase";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Login data:", { email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password })
+
+        if (error) {
+            alert("Nieprawidłowy email lub hasło. Spróbuj ponownie.");
+            setEmail("");
+            setPassword("");
+        } else {
+            navigate("/")
+        }
     };
+
 
     return (
         <div className="flex flex-col items-center h-screen">

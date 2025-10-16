@@ -1,18 +1,32 @@
+import { supabase } from "lib/supabase";
 import { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { useNavigate } from "react-router";
 import { Button } from "~/components/button";
 import Header from "~/components/header";
 import { Input } from "~/components/input";
 
 export default function RegisterPage() { 
+    const navigate = useNavigate();
+
  const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Register data:", { email, username, password });
+        
+         e.preventDefault();
+                const { error } = await supabase.auth.signUp({ email, password })
+        
+                if (error) {
+                    alert("Nieprawidłowy email lub hasło. Spróbuj ponownie.");
+                    setEmail("");
+                    setPassword("");
+                } else {
+                    navigate("/")
+                }
     };
 
     return (
