@@ -1,50 +1,56 @@
-import { categories } from "lib/defaultValues";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { PostCard } from "~/components/browse/postCard";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
+import { categories } from "lib/defaultValues";
+import { supabase } from "lib/supabase";
+
+type Ad = {
+  id: string;
+  title: string;
+  price: string;
+  images: string[];
+  category: string;
+};
 
 export default function AdsPage() {
-    const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [ads, setAds] = useState<Ad[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("cat") || "Wszystkie"
+  );
 
-  const ads = [
-    {
-      id: 1,
-      title: "Sprzedam samochód Opel Astra",
-      price: "18 900 zł",
-      image: "https://picsum.photos/400/300?random=1",
-      category: "Motoryzacja",
-    },  
-    {
-      id: 2,
-      title: "Laptop gamingowy MSI",
-      price: "4 200 zł",
-      image: "https://picsum.photos/400/300?random=2",
-      category: "Elektronika",
-    },
-    {
-      id: 3,
-      title: "Mieszkanie 2 pokoje, Kraków",
-      price: "2 300 zł/mc",
-      image: "https://picsum.photos/400/300?random=3",
-      category: "Nieruchomości",
-    },
-    {
-      id: 4,
-      title: "Rowerek dziecięcy",
-      price: "250 zł",
-      image: "https://picsum.photos/400/300?random=4",
-      category: "Dla dzieci",
-    },
-  ];
+  useEffect(() => {
+    const fetchAds = async () => {
+      setLoading(true);
 
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get("cat") || "Wszystkie");
+      const cat = searchParams.get("cat");
+      let query = supabase.from("ads").select("*");
 
-  const filteredAds =
-    selectedCategory === "Wszystkie"
-      ? ads
-      : ads.filter((ad) => ad.category === selectedCategory);
+      if (cat && cat !== "Wszystkie") {
+        query = query.eq("category", cat);
+      }
+
+      const { data, error } = await query.order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Błąd przy pobieraniu ogłoszeń:", error);
+      } else {
+        setAds(data || []);
+      }
+
+      setLoading(false);
+    };
+
+    fetchAds();
+  }, [searchParams]);
+
+  const handleCategoryChange = (cat: string) => {
+    setSearchParams({ cat });
+    setSelectedCategory(cat);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -54,13 +60,10 @@ export default function AdsPage() {
         <h1 className="text-3xl font-bold text-center mb-8">Ogłoszenia</h1>
 
         <div className="flex flex-wrap justify-center gap-4 mb-10">
-          {categories.map((cat) => (
+          {["Wszystkie", ...categories].map((cat) => (
             <button
               key={cat}
-              onClick={() => {
-                setSearchParams({cat: cat})
-                setSelectedCategory(cat)
-            }}
+              onClick={() => handleCategoryChange(cat)}
               className={`px-4 py-2 rounded-full border text-sm transition ${
                 selectedCategory === cat
                   ? "bg-blue-600 text-white border-blue-600"
@@ -72,11 +75,24 @@ export default function AdsPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredAds.map((ad) => (
-            <PostCard key={ad.id} {...ad} />
-          ))}
-        </div>
+        {loading ? (
+          <p className="text-center text-gray-500">Ładowanie ogłoszeń...</p>
+        ) : ads.length === 0 ? (
+          <p className="text-center text-gray-500">Brak ogłoszeń w tej kategorii.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {ads.map((ad) => (
+              <PostCard
+                key={ad.id}
+                id={ad.id}
+                title={ad.title}
+                price={ad.price}
+                image={ad.images?.[0]}
+                category={ad.category}
+              />
+            ))}
+          </div>
+        )}
       </main>
 
       <Footer />
