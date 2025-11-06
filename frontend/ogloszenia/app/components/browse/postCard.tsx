@@ -1,13 +1,16 @@
+import { Link } from "react-router";
+
 interface PostCardProps {
-    image: string;
-    title: string;
-    price: string;
-    category: string;
-    id: string;
-  }
-  
-  export function PostCard({ image, title, price, category, id }: PostCardProps) {
-    return (
+  image: string;
+  title: string;
+  price: string;
+  category: string;
+  id: string;
+}
+
+export function PostCard({ image, title, price, category, id }: PostCardProps) {
+  return (
+    <Link to={`/p/${id}`} className="block">
       <div className="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
         <img
           src={image}
@@ -20,6 +23,6 @@ interface PostCardProps {
           <p className="text-gray-400 text-sm">{category}</p>
         </div>
       </div>
-    );
-  }
-  
+    </Link>
+  );
+}
