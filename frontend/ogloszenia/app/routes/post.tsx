@@ -90,7 +90,6 @@ export default function PostPage() {
 
           <p className="text-gray-700 mb-6">{post.description}</p>
 
-          <Button className="mb-10">Skontaktuj się</Button>
         </div>
       </main>
     </div>
